@@ -19,3 +19,9 @@
 
 1524866149 c:\test\pattie\amb-estructuragenerica\estructuragenerica.h
 
+1524867603 source:c:\test\pattie\amb-estructuragenerica\estructuragenerica.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"EstructuraGenerica.h"
+

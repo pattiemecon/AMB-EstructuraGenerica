@@ -195,7 +195,7 @@ int eGen_modificacion(eGenerica  listado[],int limite,int id)
             //if(!getValidString("Nombre?","Error","Overflow", nombre,50,2))
             //{
                 retorno = 0;
-                strcpy(listado[indice].nombre,"juan ");
+                strcpy(listado[indice].nombre,"maria ");
                 listado[indice].idGenerica = id;
             //}
         }
