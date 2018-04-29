@@ -175,20 +175,29 @@ int eGen_alta(eGenerica  listado[],int limite)
     return retorno;
 }
 
-int eGen_baja(eGenerica  listado[],int limite,int id)
+int eGen_baja(eGenerica  listado[],int limite)
 {
     int retorno = -1;
     int indice;
+    int buscaId;
+    int id;
 
     if(limite > 0 && listado != NULL)
     {
         retorno = -2;
-        indice = eGen_buscarPorId(listado, limite, id);
-        if(indice >= 0)
+        do
         {
-            retorno = 0;
-            listado[indice].estado = LIBRE;
-        }
+            buscaId = eGen_mostrarListado(listado, limite);
+            id = pedirEnteroSinValidar("\nIngrese ID a borrar: ");
+            indice = eGen_buscarPorId(listado, limite, id);
+            if(indice < 0)
+            {
+                printf("No se encontro el ID ingresado. Por favor reingrese");
+            }
+        } while(indice < 0);
+
+        retorno = 0;
+        listado[indice].estado = LIBRE;
     }
     return retorno;
 }

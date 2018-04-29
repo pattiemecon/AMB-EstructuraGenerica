@@ -16,19 +16,19 @@ int main()
     eGen_mostrarListadoConBorrados(listadoGenerico,CANTIDAD);
     getchar();
 
+    printf( "\n \t cargo dos elementos y muestro el array\n");
     eGen_alta(listadoGenerico,CANTIDAD);
     eGen_alta(listadoGenerico,CANTIDAD);
-    printf( "\n \t cargo dos elementos y muestro el array");
     eGen_mostrarListado(listadoGenerico,CANTIDAD);
     getchar();
 
+    /*printf( "\n \t modifico un elemento y muestro el array");
     eGen_modificacion(listadoGenerico,CANTIDAD,1);
-    printf( "\n \t modifico un elemento y muestro el array");
     eGen_mostrarListado(listadoGenerico,CANTIDAD);
-    getchar();
+    getchar();*/
 
-    eGen_baja(listadoGenerico,CANTIDAD,2);
     printf( "\n \t borro el otro elemento y muestro el array");
+    eGen_baja(listadoGenerico,CANTIDAD);
     eGen_mostrarListado(listadoGenerico,CANTIDAD);
     getchar();
 

@@ -19,7 +19,7 @@ int eGen_mostrarListado(eGenerica[] ,int limite);
 int eGen_mostrarListadoConBorrados(eGenerica[] ,int limite);
 
 int eGen_alta(eGenerica[] ,int limite);
-int eGen_baja(eGenerica[] ,int limite, int id);
+int eGen_baja(eGenerica[] ,int limite);
 int eGen_modificacion(eGenerica[] ,int limite, int id);
 
 int eGen_ordenar(eGenerica[] ,int limite, int orden);
