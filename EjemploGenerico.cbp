@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="../Programacion-I/pattie/Funciones/funciones.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Programacion-I/pattie/Funciones/funciones.h" />
 		<Unit filename="EstructuraGenerica.c">
 			<Option compilerVar="CC" />
 		</Unit>

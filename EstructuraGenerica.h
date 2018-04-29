@@ -15,6 +15,7 @@ int eGen_siguienteId(eGenerica[] ,int limite);
 int eGen_buscarLugarLibre(eGenerica listado[],int limite);
 
 void eGen_mostrarUno(eGenerica parametro);
+void eGen_mostrarUnoConEstado(eGenerica parametro);
 int eGen_mostrarListado(eGenerica[] ,int limite);
 int eGen_mostrarListadoConBorrados(eGenerica[] ,int limite);
 

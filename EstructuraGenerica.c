@@ -89,8 +89,24 @@ int eGen_buscarPorId(eGenerica listado[] ,int limite, int id)
 
 void eGen_mostrarUno(eGenerica parametro)
 {
-     printf("\n %s - %d - %d",parametro.nombre,parametro.idGenerica,parametro.estado);
+     printf("\n %d - %s",parametro.idGenerica,parametro.nombre);
 
+}
+
+void eGen_mostrarUnoConEstado(eGenerica parametro)
+{
+    switch(parametro.estado)
+    {
+    case LIBRE:
+        printf("\n %d - %s - %s",parametro.idGenerica,parametro.nombre,"[LIBRE]");
+        break;
+    case OCUPADO:
+        printf("\n %d - %s",parametro.idGenerica,parametro.nombre);
+        break;
+    default:
+        printf("\n %d - %s - %s",parametro.idGenerica,parametro.nombre,"[N/A]");
+        break;
+    }
 }
 
 int eGen_mostrarListado(eGenerica listado[],int limite)
@@ -104,7 +120,6 @@ int eGen_mostrarListado(eGenerica listado[],int limite)
         {
             if(listado[i].estado==OCUPADO)
             {
-
                 eGen_mostrarUno(listado[i]);
             }
         }
@@ -122,11 +137,7 @@ int eGen_mostrarListadoConBorrados(eGenerica listado[],int limite)
         retorno = 0;
         for(i=0; i<limite; i++)
         {
-            if(listado[i].estado==LIBRE)
-            {
-                printf("\n[LIBRE]");
-            }
-            eGen_mostrarUno(listado[i]);
+            eGen_mostrarUnoConEstado(listado[i]);
         }
     }
     return retorno;
