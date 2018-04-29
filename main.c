@@ -22,17 +22,17 @@ int main()
     eGen_mostrarListado(listadoGenerico,CANTIDAD);
     getchar();
 
-    /*printf( "\n \t modifico un elemento y muestro el array");
-    eGen_modificacion(listadoGenerico,CANTIDAD,1);
+    printf( "\n \t modifico un elemento y muestro el array\n");
+    eGen_modificacion(listadoGenerico,CANTIDAD);
     eGen_mostrarListado(listadoGenerico,CANTIDAD);
-    getchar();*/
+    getchar();
 
-    printf( "\n \t borro el otro elemento y muestro el array");
+    printf( "\n \t borro el otro elemento y muestro el array\n");
     eGen_baja(listadoGenerico,CANTIDAD);
     eGen_mostrarListado(listadoGenerico,CANTIDAD);
     getchar();
 
-    printf( "\n \t muestro el array con los borrados y vacios");
+    printf( "\n \t muestro el array con los borrados y vacios\n");
     eGen_mostrarListadoConBorrados(listadoGenerico,CANTIDAD);
     getchar();
 

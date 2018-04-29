@@ -4,7 +4,6 @@
 #include "EstructuraGenerica.h"
 #include "../Programacion-I/pattie/Funciones/funciones.h"
 #define TAMANIO 10
-#define STR_TAM 50
 #define OCUPADO 0
 #define LIBRE 1
 
@@ -151,7 +150,7 @@ int eGen_mostrarListadoConBorrados(eGenerica listado[],int limite)
 int eGen_alta(eGenerica  listado[],int limite)
 {
     int retorno = -1;
-    char nombre[STR_TAM];
+    char nombre[TAM_NOMBRE];
     int id;
     int indice;
 
@@ -164,7 +163,15 @@ int eGen_alta(eGenerica  listado[],int limite)
             retorno = -3;
             id = eGen_siguienteId(listado,limite);
 
-            pedirString("Ingrese nombre: ", nombre, STR_TAM);
+            retorno = -4;
+            do
+            {
+                pedirString("Ingrese nombre: ", nombre, TAM_NOMBRE);
+                if(strcmp(nombre, "") == 0)
+                {
+                    printf("El dato es obligatorio, por favor reingrese\n");
+                }
+            } while(strcmp(nombre, "") == 0);
 
             retorno = 0;
             strcpy(listado[indice].nombre, nombre);
@@ -179,7 +186,7 @@ int eGen_baja(eGenerica  listado[],int limite)
 {
     int retorno = -1;
     int indice;
-    int buscaId;
+    int muestraListado;
     int id;
 
     if(limite > 0 && listado != NULL)
@@ -187,12 +194,19 @@ int eGen_baja(eGenerica  listado[],int limite)
         retorno = -2;
         do
         {
-            buscaId = eGen_mostrarListado(listado, limite);
+            muestraListado = eGen_mostrarListado(listado, limite);
+
+            if(muestraListado < 0)
+            {
+                printf("\Error al listar...\n");
+                break;
+            }
+
             id = pedirEnteroSinValidar("\nIngrese ID a borrar: ");
             indice = eGen_buscarPorId(listado, limite, id);
             if(indice < 0)
             {
-                printf("No se encontro el ID ingresado. Por favor reingrese");
+                printf("No se encontro el ID ingresado. Por favor reingrese\n");
             }
         } while(indice < 0);
 
@@ -202,21 +216,47 @@ int eGen_baja(eGenerica  listado[],int limite)
     return retorno;
 }
 
-int eGen_modificacion(eGenerica  listado[],int limite,int id)
+int eGen_modificacion(eGenerica  listado[],int limite)
 {
     int retorno = -1;
     int indice;
+    int muestraListado;
+    int id;
+    char nombre[TAM_NOMBRE];
 
     if(limite > 0 && listado != NULL)
     {
         retorno = -2;
-        indice = eGen_buscarPorId(listado, limite, id);
-        if(indice >= 0)
+        do
         {
-            retorno = 0;
-            strcpy(listado[indice].nombre,"maria ");
-            listado[indice].idGenerica = id;
-        }
+            muestraListado = eGen_mostrarListado(listado, limite);
+
+            if(muestraListado < 0)
+            {
+                printf("\Error al listar...\n");
+                break;
+            }
+
+            id = pedirEnteroSinValidar("\nIngrese ID a modificar: ");
+            indice = eGen_buscarPorId(listado, limite, id);
+            if(indice < 0)
+            {
+                printf("No se encontro el ID ingresado. Por favor reingrese\n");
+            }
+        } while(indice < 0);
+
+        retorno = -3;
+        do
+        {
+            pedirString("Ingrese nuevo nombre: ", nombre, TAM_NOMBRE);
+            if(strcmp(nombre, "") == 0)
+            {
+                printf("El dato es obligatorio, por favor reingrese\n");
+            }
+        } while(strcmp(nombre, "") == 0);
+
+        retorno = 0;
+        strcpy(listado[indice].nombre, nombre);
     }
     return retorno;
 }

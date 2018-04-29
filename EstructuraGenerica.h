@@ -1,8 +1,11 @@
 #ifndef ESTRUCTURAGENERICA_H_INCLUDED
 #define ESTRUCTURAGENERICA_H_INCLUDED
+
+#define TAM_NOMBRE 50
+
 typedef struct
 {
-    char nombre[50];
+    char nombre[TAM_NOMBRE];
     //------------
     int idGenerica;
     int estado;
@@ -20,7 +23,7 @@ int eGen_mostrarListadoConBorrados(eGenerica[] ,int limite);
 
 int eGen_alta(eGenerica[] ,int limite);
 int eGen_baja(eGenerica[] ,int limite);
-int eGen_modificacion(eGenerica[] ,int limite, int id);
+int eGen_modificacion(eGenerica[] ,int limite);
 
 int eGen_ordenar(eGenerica[] ,int limite, int orden);
 
