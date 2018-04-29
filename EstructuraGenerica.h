@@ -7,7 +7,6 @@ typedef struct
     int idGenerica;
     int estado;
 }eGenerica;
-#endif // ESTRUCTURAGENERICA_H_INCLUDED
 
 int eGen_init(eGenerica[],int limite);
 int eGen_buscarPorId(eGenerica[] ,int limite, int id);
@@ -24,3 +23,5 @@ int eGen_baja(eGenerica[] ,int limite, int id);
 int eGen_modificacion(eGenerica[] ,int limite, int id);
 
 int eGen_ordenar(eGenerica[] ,int limite, int orden);
+
+#endif // ESTRUCTURAGENERICA_H_INCLUDED

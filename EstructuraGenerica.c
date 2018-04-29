@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "EstructuraGenerica.h"
+#include "../Programacion-I/pattie/Funciones/funciones.h"
 #define TAMANIO 10
+#define STR_TAM 10
 #define OCUPADO 0
 #define LIBRE 1
 
@@ -149,7 +151,7 @@ int eGen_mostrarListadoConBorrados(eGenerica listado[],int limite)
 int eGen_alta(eGenerica  listado[],int limite)
 {
     int retorno = -1;
-    //char nombre[50];
+    char nombre[STR_TAM];
     int id;
     int indice;
 
@@ -162,13 +164,12 @@ int eGen_alta(eGenerica  listado[],int limite)
             retorno = -3;
             id = eGen_siguienteId(listado,limite);
 
-            //if(!getValidString("Nombre?","Error","Overflow", nombre,50,2))
-            //{
-                retorno = 0;
-                strcpy(listado[indice].nombre,"juan ");
-                listado[indice].idGenerica = id;
-                listado[indice].estado = OCUPADO;
-            //}
+            pedirString("Ingrese nombre: ", nombre, STR_TAM);
+
+            retorno = 0;
+            strcpy(listado[indice].nombre, nombre);
+            listado[indice].idGenerica = id;
+            listado[indice].estado = OCUPADO;
         }
     }
     return retorno;
@@ -203,12 +204,9 @@ int eGen_modificacion(eGenerica  listado[],int limite,int id)
         indice = eGen_buscarPorId(listado, limite, id);
         if(indice >= 0)
         {
-            //if(!getValidString("Nombre?","Error","Overflow", nombre,50,2))
-            //{
-                retorno = 0;
-                strcpy(listado[indice].nombre,"maria ");
-                listado[indice].idGenerica = id;
-            //}
+            retorno = 0;
+            strcpy(listado[indice].nombre,"maria ");
+            listado[indice].idGenerica = id;
         }
     }
     return retorno;

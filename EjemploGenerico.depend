@@ -25,3 +25,26 @@
 	<string.h>
 	"EstructuraGenerica.h"
 
+1524970850 source:f:\mis documentos\escritorio\programacion\utn\programacion 1\amb-estructuragenerica\estructuragenerica.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"EstructuraGenerica.h"
+	"../Programacion-I/pattie/Funciones/funciones.h"
+
+1524969213 f:\mis documentos\escritorio\programacion\utn\programacion 1\amb-estructuragenerica\estructuragenerica.h
+
+1524964124 f:\mis documentos\escritorio\programacion\utn\programacion 1\programacion-i\pattie\funciones\funciones.h
+
+1524946836 source:f:\mis documentos\escritorio\programacion\utn\programacion 1\amb-estructuragenerica\main.c
+	<stdio.h>
+	<stdlib.h>
+	"EstructuraGenerica.h"
+
+1524971043 source:f:\mis documentos\escritorio\programacion\utn\programacion 1\programacion-i\pattie\funciones\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"funciones.h"
+
