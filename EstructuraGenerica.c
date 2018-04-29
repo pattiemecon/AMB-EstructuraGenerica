@@ -4,7 +4,7 @@
 #include "EstructuraGenerica.h"
 #include "../Programacion-I/pattie/Funciones/funciones.h"
 #define TAMANIO 10
-#define STR_TAM 10
+#define STR_TAM 50
 #define OCUPADO 0
 #define LIBRE 1
 
