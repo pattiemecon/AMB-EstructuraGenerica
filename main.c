@@ -36,6 +36,15 @@ int main()
     eGen_mostrarListado(listadoGenerico,CANTIDAD);
     getchar();
 
+    printf( "\n \t rehabilito el elemento y muestro el array\n");
+    eGen_rehabilitar(listadoGenerico,CANTIDAD);
+    eGen_mostrarListadoConOcupados(listadoGenerico,CANTIDAD);
+    getchar();
+
+    printf( "\n \t muestro el array con los borrados y vacios\n");
+    eGen_mostrarListado(listadoGenerico,CANTIDAD);
+    getchar();
+
 
     return 0;
 }

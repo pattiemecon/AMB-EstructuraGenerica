@@ -140,6 +140,8 @@ void eGen_mostrarUnoConEstado(eGenerica parametro)
 {
     switch(parametro.estado)
     {
+    case LIBRE: //No muestro las posiciones con estado LIBRE porque contienen basura
+        break;
     case BAJA:
         printf("\n %d - %s - %s",parametro.idGenerica,parametro.nombre,"[BAJA]");
         break;
@@ -340,7 +342,7 @@ int eGen_rehabilitar(eGenerica  listado[],int limite)
                 break;
             }
 
-            id = pedirEnteroSinValidar("\nIngrese ID a borrar: ");
+            id = pedirEnteroSinValidar("\nIngrese ID a rehabilitar: ");
             indice = eGen_buscarPorIdBorrados(listado, limite, id);
             if(indice < 0)
             {
