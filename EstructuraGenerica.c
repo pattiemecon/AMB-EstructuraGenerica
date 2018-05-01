@@ -165,8 +165,14 @@ int eGen_mostrarListadoConOcupados(eGenerica listado[],int limite)
         {
             if(listado[i].estado==OCUPADO)
             {
+                retorno = 1;
                 eGen_mostrarUno(listado[i]);
             }
+        }
+
+        if(retorno == 0)
+        {
+            printf("\n*** NO HAY ELEMENTOS PARA MOSTRAR ***");
         }
     }
     return retorno;
@@ -183,8 +189,14 @@ int eGen_mostrarListadoConBorrados(eGenerica listado[],int limite)
         {
             if(listado[i].estado==BAJA)
             {
+                retorno = 1;
                 eGen_mostrarUno(listado[i]);
             }
+        }
+
+        if(retorno == 0)
+        {
+            printf("\n*** NO HAY ELEMENTOS PARA MOSTRAR ***");
         }
     }
     return retorno;
@@ -199,7 +211,16 @@ int eGen_mostrarListado(eGenerica listado[],int limite)
         retorno = 0;
         for(i=0; i<limite; i++)
         {
-            eGen_mostrarUnoConEstado(listado[i]);
+            if(listado[i].estado==BAJA || listado[i].estado==OCUPADO)
+            {
+                retorno = 1;
+                eGen_mostrarUnoConEstado(listado[i]);
+            }
+        }
+
+        if(retorno == 0)
+        {
+            printf("\n*** NO HAY ELEMENTOS PARA MOSTRAR ***");
         }
     }
     return retorno;
@@ -220,6 +241,7 @@ int eGen_alta(eGenerica  listado[],int limite)
         {
             retorno = -3;
             temporario.idGenerica = eGen_siguienteId(listado,limite);
+            temporario.estado = OCUPADO;
 
             retorno = -4;
             do
@@ -246,9 +268,7 @@ int eGen_alta(eGenerica  listado[],int limite)
             if(stricmp(confirma, "S") == 0)
             {
                 retorno = 0;
-                strcpy(listado[indice].nombre, temporario.nombre);
-                listado[indice].idGenerica = temporario.idGenerica;
-                listado[indice].estado = OCUPADO;
+                listado[indice] = temporario;
             }
             else
             {
@@ -274,41 +294,47 @@ int eGen_baja(eGenerica  listado[],int limite)
         {
             muestraListado = eGen_mostrarListadoConOcupados(listado, limite);
 
-            if(muestraListado < 0)
+            switch(muestraListado)
             {
+            case 0:
+                printf("\nNo hay elementos para dar de baja");
+                break;
+            case 1:
+                id = pedirEnteroSinValidar("\nIngrese ID a borrar: ");
+                indice = eGen_buscarPorId(listado, limite, id);
+                if(indice < 0)
+                {
+                    printf("No se encontro el ID ingresado. Por favor reingrese\n");
+                }
+
+                retorno = -3;
+                do
+                {
+                    printf("\nSe va a dar de baja:");
+                    eGen_mostrarUno(listado[indice]);
+                    pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
+                    if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
+                    {
+                        printf("Debe ingresar S o N. Por favor reingrese\n");
+                    }
+                } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
+
+                if(stricmp(confirma, "S") == 0)
+                {
+                    retorno = 0;
+                    listado[indice].estado = BAJA;
+                }
+                else
+                {
+                    printf("Accion cancelada por el usuario\n");
+                }
+
+                break;
+            default:
                 printf("\Error al listar...\n");
                 break;
             }
-
-            id = pedirEnteroSinValidar("\nIngrese ID a borrar: ");
-            indice = eGen_buscarPorId(listado, limite, id);
-            if(indice < 0)
-            {
-                printf("No se encontro el ID ingresado. Por favor reingrese\n");
-            }
-        } while(indice < 0);
-
-        retorno = -3;
-        do
-        {
-            printf("\nSe va a dar de baja:");
-            eGen_mostrarUno(listado[indice]);
-            pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
-            if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
-            {
-                printf("Debe ingresar S o N. Por favor reingrese\n");
-            }
-        } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
-
-        if(stricmp(confirma, "S") == 0)
-        {
-            retorno = 0;
-            listado[indice].estado = BAJA;
-        }
-        else
-        {
-            printf("Accion cancelada por el usuario\n");
-        }
+        } while(indice < 0 && muestraListado == 1);
     }
 
     return retorno;
@@ -321,6 +347,7 @@ int eGen_modificacion(eGenerica  listado[],int limite)
     int muestraListado;
     eGenerica temporario;
     char confirma[3];
+    int modificoDato = 0;
 
     if(limite > 0 && listado != NULL)
     {
@@ -329,54 +356,78 @@ int eGen_modificacion(eGenerica  listado[],int limite)
         {
             muestraListado = eGen_mostrarListadoConOcupados(listado, limite);
 
-            if(muestraListado < 0)
+            switch(muestraListado)
             {
+            case 0:
+                printf("\nNo hay elementos para modificar");
+                break;
+            case 1:
+                temporario.idGenerica = pedirEnteroSinValidar("\nIngrese ID a modificar: ");
+                indice = eGen_buscarPorId(listado, limite, temporario.idGenerica);
+                if(indice < 0)
+                {
+                    printf("No se encontro el ID ingresado. Por favor reingrese\n");
+                }
+
+                temporario = listado[indice];
+
+                retorno = -3;
+                do
+                {
+                    pedirString("\nModifica nombre? (S/N): ", confirma, 3);
+                    if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
+                    {
+                        printf("Debe ingresar S o N. Por favor reingrese\n");
+                    }
+                } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
+                if(stricmp(confirma, "S") == 0)
+                {
+                    do
+                    {
+                        pedirString("Ingrese nuevo nombre: ", temporario.nombre, TAM_NOMBRE);
+                        if(strcmp(temporario.nombre, "") == 0)
+                        {
+                            printf("El dato es obligatorio, por favor reingrese\n");
+                        }
+                    } while(strcmp(temporario.nombre, "") == 0);
+                    modificoDato = 1;
+                }
+
+                if(modificoDato == 1)
+                {
+                    retorno = -4;
+                    do
+                    {
+                        printf("\nSe va a modificar:");
+                        eGen_mostrarUno(listado[indice]);
+                        printf("\nPor:");
+                        eGen_mostrarUno(temporario);
+                        pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
+                        if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
+                        {
+                            printf("Debe ingresar S o N. Por favor reingrese\n");
+                        }
+                    } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
+                }
+
+                if(stricmp(confirma, "S") == 0 && modificoDato == 1)
+                {
+                    retorno = 0;
+                    listado[indice] = temporario;
+                }
+                else
+                {
+                    printf("Accion cancelada por el usuario\n");
+                }
+
+                break;
+            default:
                 printf("\Error al listar...\n");
                 break;
             }
-
-            temporario.idGenerica = pedirEnteroSinValidar("\nIngrese ID a modificar: ");
-            indice = eGen_buscarPorId(listado, limite, temporario.idGenerica);
-            if(indice < 0)
-            {
-                printf("No se encontro el ID ingresado. Por favor reingrese\n");
-            }
-        } while(indice < 0);
-
-        retorno = -3;
-        do
-        {
-            pedirString("Ingrese nuevo nombre: ", temporario.nombre, TAM_NOMBRE);
-            if(strcmp(temporario.nombre, "") == 0)
-            {
-                printf("El dato es obligatorio, por favor reingrese\n");
-            }
-        } while(strcmp(temporario.nombre, "") == 0);
-
-        retorno = -4;
-        do
-        {
-            printf("\nSe va a modificar:");
-            eGen_mostrarUno(listado[indice]);
-            printf("\nPor:");
-            eGen_mostrarUno(temporario);
-            pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
-            if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
-            {
-                printf("Debe ingresar S o N. Por favor reingrese\n");
-            }
-        } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
-
-        if(stricmp(confirma, "S") == 0)
-        {
-            retorno = 0;
-            strcpy(listado[indice].nombre, temporario.nombre);
-        }
-        else
-        {
-            printf("Accion cancelada por el usuario\n");
-        }
+        } while(indice < 0 && muestraListado == 1);
     }
+
     return retorno;
 }
 
@@ -395,41 +446,48 @@ int eGen_rehabilitar(eGenerica  listado[],int limite)
         {
             muestraListado = eGen_mostrarListadoConBorrados(listado, limite);
 
-            if(muestraListado < 0)
+            switch(muestraListado)
             {
+            case 0:
+                printf("\nNo hay elementos para rehabilitar");
+                break;
+            case 1:
+                id = pedirEnteroSinValidar("\nIngrese ID a rehabilitar: ");
+                indice = eGen_buscarPorIdBorrados(listado, limite, id);
+                if(indice < 0)
+                {
+                    printf("No se encontro el ID ingresado. Por favor reingrese\n");
+                }
+
+                retorno = -3;
+                do
+                {
+                    printf("\nSe va a rehabilitar:");
+                    eGen_mostrarUno(listado[indice]);
+                    pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
+                    if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
+                    {
+                        printf("Debe ingresar S o N. Por favor reingrese\n");
+                    }
+                } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
+
+                if(stricmp(confirma, "S") == 0)
+                {
+                    retorno = 0;
+                    listado[indice].estado = OCUPADO;
+                }
+                else
+                {
+                    printf("Accion cancelada por el usuario\n");
+                }
+
+                break;
+            default:
                 printf("\Error al listar...\n");
                 break;
             }
-
-            id = pedirEnteroSinValidar("\nIngrese ID a rehabilitar: ");
-            indice = eGen_buscarPorIdBorrados(listado, limite, id);
-            if(indice < 0)
-            {
-                printf("No se encontro el ID ingresado. Por favor reingrese\n");
-            }
-        } while(indice < 0);
-
-        retorno = -3;
-        do
-        {
-            printf("\nSe va a rehabilitar:");
-            eGen_mostrarUno(listado[indice]);
-            pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
-            if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
-            {
-                printf("Debe ingresar S o N. Por favor reingrese\n");
-            }
-        } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
-
-        if(stricmp(confirma, "S") == 0)
-        {
-            retorno = 0;
-            listado[indice].estado = OCUPADO;
-        }
-        else
-        {
-            printf("Accion cancelada por el usuario\n");
-        }
+        } while(indice < 0 && muestraListado == 1);
     }
+
     return retorno;
 }
