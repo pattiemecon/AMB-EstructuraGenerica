@@ -205,15 +205,12 @@ int eGen_mostrarListado(eGenerica listado[],int limite)
     return retorno;
 }
 
-
-
-
 int eGen_alta(eGenerica  listado[],int limite)
 {
     int retorno = -1;
-    char nombre[TAM_NOMBRE];
-    int id;
+    eGenerica temporario;
     int indice;
+    char confirma[3];
 
     if(limite > 0 && listado != NULL)
     {
@@ -222,22 +219,41 @@ int eGen_alta(eGenerica  listado[],int limite)
         if(indice >= 0)
         {
             retorno = -3;
-            id = eGen_siguienteId(listado,limite);
+            temporario.idGenerica = eGen_siguienteId(listado,limite);
 
             retorno = -4;
             do
             {
-                pedirString("Ingrese nombre: ", nombre, TAM_NOMBRE);
-                if(strcmp(nombre, "") == 0)
+                pedirString("Ingrese nombre: ", temporario.nombre, TAM_NOMBRE);
+                if(strcmp(temporario.nombre, "") == 0)
                 {
                     printf("El dato es obligatorio, por favor reingrese\n");
                 }
-            } while(strcmp(nombre, "") == 0);
+            } while(strcmp(temporario.nombre, "") == 0);
 
-            retorno = 0;
-            strcpy(listado[indice].nombre, nombre);
-            listado[indice].idGenerica = id;
-            listado[indice].estado = OCUPADO;
+            retorno = -5;
+            do
+            {
+                printf("\nSe va a dar de alta:");
+                eGen_mostrarUno(temporario);
+                pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
+                if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
+                {
+                    printf("Debe ingresar S o N. Por favor reingrese\n");
+                }
+            } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
+
+            if(stricmp(confirma, "S") == 0)
+            {
+                retorno = 0;
+                strcpy(listado[indice].nombre, temporario.nombre);
+                listado[indice].idGenerica = temporario.idGenerica;
+                listado[indice].estado = OCUPADO;
+            }
+            else
+            {
+                printf("Accion cancelada por el usuario\n");
+            }
         }
     }
     return retorno;
@@ -249,6 +265,7 @@ int eGen_baja(eGenerica  listado[],int limite)
     int indice;
     int muestraListado;
     int id;
+    char confirma[3];
 
     if(limite > 0 && listado != NULL)
     {
@@ -271,9 +288,29 @@ int eGen_baja(eGenerica  listado[],int limite)
             }
         } while(indice < 0);
 
-        retorno = 0;
-        listado[indice].estado = BAJA;
+        retorno = -3;
+        do
+        {
+            printf("\nSe va a dar de baja:");
+            eGen_mostrarUno(listado[indice]);
+            pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
+            if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
+            {
+                printf("Debe ingresar S o N. Por favor reingrese\n");
+            }
+        } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
+
+        if(stricmp(confirma, "S") == 0)
+        {
+            retorno = 0;
+            listado[indice].estado = BAJA;
+        }
+        else
+        {
+            printf("Accion cancelada por el usuario\n");
+        }
     }
+
     return retorno;
 }
 
@@ -282,8 +319,8 @@ int eGen_modificacion(eGenerica  listado[],int limite)
     int retorno = -1;
     int indice;
     int muestraListado;
-    int id;
-    char nombre[TAM_NOMBRE];
+    eGenerica temporario;
+    char confirma[3];
 
     if(limite > 0 && listado != NULL)
     {
@@ -298,8 +335,8 @@ int eGen_modificacion(eGenerica  listado[],int limite)
                 break;
             }
 
-            id = pedirEnteroSinValidar("\nIngrese ID a modificar: ");
-            indice = eGen_buscarPorId(listado, limite, id);
+            temporario.idGenerica = pedirEnteroSinValidar("\nIngrese ID a modificar: ");
+            indice = eGen_buscarPorId(listado, limite, temporario.idGenerica);
             if(indice < 0)
             {
                 printf("No se encontro el ID ingresado. Por favor reingrese\n");
@@ -309,15 +346,36 @@ int eGen_modificacion(eGenerica  listado[],int limite)
         retorno = -3;
         do
         {
-            pedirString("Ingrese nuevo nombre: ", nombre, TAM_NOMBRE);
-            if(strcmp(nombre, "") == 0)
+            pedirString("Ingrese nuevo nombre: ", temporario.nombre, TAM_NOMBRE);
+            if(strcmp(temporario.nombre, "") == 0)
             {
                 printf("El dato es obligatorio, por favor reingrese\n");
             }
-        } while(strcmp(nombre, "") == 0);
+        } while(strcmp(temporario.nombre, "") == 0);
 
-        retorno = 0;
-        strcpy(listado[indice].nombre, nombre);
+        retorno = -4;
+        do
+        {
+            printf("\nSe va a modificar:");
+            eGen_mostrarUno(listado[indice]);
+            printf("\nPor:");
+            eGen_mostrarUno(temporario);
+            pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
+            if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
+            {
+                printf("Debe ingresar S o N. Por favor reingrese\n");
+            }
+        } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
+
+        if(stricmp(confirma, "S") == 0)
+        {
+            retorno = 0;
+            strcpy(listado[indice].nombre, temporario.nombre);
+        }
+        else
+        {
+            printf("Accion cancelada por el usuario\n");
+        }
     }
     return retorno;
 }
@@ -328,6 +386,7 @@ int eGen_rehabilitar(eGenerica  listado[],int limite)
     int indice;
     int muestraListado;
     int id;
+    char confirma[3];
 
     if(limite > 0 && listado != NULL)
     {
@@ -350,8 +409,27 @@ int eGen_rehabilitar(eGenerica  listado[],int limite)
             }
         } while(indice < 0);
 
-        retorno = 0;
-        listado[indice].estado = OCUPADO;
+        retorno = -3;
+        do
+        {
+            printf("\nSe va a rehabilitar:");
+            eGen_mostrarUno(listado[indice]);
+            pedirString("\nConfirma esta accion? (S/N): ", confirma, 3);
+            if(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0)
+            {
+                printf("Debe ingresar S o N. Por favor reingrese\n");
+            }
+        } while(stricmp(confirma, "S") != 0 && stricmp(confirma, "N") != 0);
+
+        if(stricmp(confirma, "S") == 0)
+        {
+            retorno = 0;
+            listado[indice].estado = OCUPADO;
+        }
+        else
+        {
+            printf("Accion cancelada por el usuario\n");
+        }
     }
     return retorno;
 }
